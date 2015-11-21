@@ -79,20 +79,20 @@ public class FileButton extends JFrame {
 	public void createMenuBar() {
 		
         //create icons (and resize them accordingly)
-        BufferedImage exitImage = null, openImage = null, delImage = null;
+        BufferedImage exitImage = null, openImage = null, delImage = null, saveImage = null;
         try{
         	exitImage = ImageIO.read(new File("images/exit.png"));
         	exitImage = getScaledImage(exitImage, this.iconWidth, this.iconHeight);
         	openImage = ImageIO.read(new File("images/open.png"));
         	openImage = getScaledImage(openImage, this.iconWidth, this.iconHeight);
         	delImage  = ImageIO.read(new File("images/del.png"));
-        	delImage = getScaledImage(delImage, this.iconWidth, this.iconHeight);
+        	delImage  = getScaledImage(delImage, this.iconWidth, this.iconHeight);
         }
         catch (IOException ex) {
         }
         ImageIcon exitIcon = new ImageIcon(exitImage);
         ImageIcon openIcon = new ImageIcon(openImage);
-        ImageIcon delIcon  = new ImageIcon(delImage);
+        ImageIcon delIcon  = new ImageIcon(delImage);    
         
         //button event
         file.setMnemonic(KeyEvent.VK_F);
@@ -133,19 +133,6 @@ public class FileButton extends JFrame {
         eMenuItemDel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-            	/*JFileChooser chooser= new JFileChooser();
-        		int choice = chooser.showOpenDialog(null);
-        		if (choice != JFileChooser.APPROVE_OPTION) return;
-        		File chosenFile = chooser.getSelectedFile();
-        		
-        		//ask users for confirmation before deletion
-        		int reply = JOptionPane.showConfirmDialog(null, "Are you sure to delete this file?", "Close?",  JOptionPane.YES_NO_OPTION);
-        		if (reply == JOptionPane.YES_OPTION)
-        		{
-        		   System.exit(0);
-        		}
-        		chosenFile.delete();*/
-            	
             	//trigger events
             	System.out.println("Inside call");
 				for (FilePanelInterface2 hl2 : fpi2)
@@ -153,6 +140,7 @@ public class FileButton extends JFrame {
             	
             }
         });
+        
         
         //Exit option
         JMenuItem eMenuItem = new JMenuItem("Quit", exitIcon);

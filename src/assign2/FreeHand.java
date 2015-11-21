@@ -114,22 +114,6 @@ public class FreeHand extends JPanel
 	        panel.add(clear);
 	        return panel;
 	    }
-	 
-	    /*public static void main(String[] args)
-	    {
-	        FreeHand freeHand = new FreeHand();
-	        DrawingListener listener = new DrawingListener(freeHand);
-	        freeHand.addMouseListener(listener);
-	        freeHand.addMouseMotionListener(listener);
-	        JFrame f = new JFrame();
-	        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        //f.getContentPane().add(freeHand.getColorPanel(), "North");
-	        f.getContentPane().add(freeHand);
-	        //f.getContentPane().add(freeHand.getControlPanel(), "South");
-	        f.setSize(400,400);
-	        f.setLocation(200,200);
-	        f.setVisible(true);
-	    }*/
 	}
 	 
 	class DrawingListener extends MouseInputAdapter

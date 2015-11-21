@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -16,20 +17,28 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
@@ -80,6 +89,60 @@ public class MainFrame extends JFrame{
                 vb.addToMenu(menuBar);
                 vb.createMenuBar();
                 
+                //create and add "Save" button to menubar
+                JButton sab = new JButton("Save Back Photo ...");
+                sab.setOpaque(false);
+                sab.setContentAreaFilled(false);
+                sab.setBorderPainted(false);
+                sab.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent event) {
+                    	JFileChooser fileChooser = new JFileChooser();
+                    	if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                    	  File file = fileChooser.getSelectedFile();
+                    	  File outputfile = new File(file.getAbsolutePath());
+                    		try {
+                    	        ImageIO.write((BufferedImage)pn.backPhoto, "png", outputfile);
+            				} catch (IOException e) {
+            					// TODO Auto-generated catch block
+            					e.printStackTrace();
+            				}
+                    	}
+                    }
+                });
+                
+                //create and add "Save" button to menubar
+                JButton sap = new JButton("Save Project ...");
+                sap.setOpaque(false);
+                sap.setContentAreaFilled(false);
+                sap.setBorderPainted(false);
+                sap.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent event) {
+                    	JFileChooser fileChooser = new JFileChooser();
+						if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) 
+						{
+	                    	File file = fileChooser.getSelectedFile();           	
+	                    	BufferedWriter output=null;
+	                    	String outPath = file.getAbsolutePath() + ".dat";
+	                    	File f=new File(outPath);
+	                    	try {
+								output = new BufferedWriter(new FileWriter(f));
+								for (int i=0; i<pn.dcIndex; i++)
+								{
+									output.write(pn.dc[i].x0 + "," + pn.dc[i].y0 + "," + pn.dc[i].x1 + "," + pn.dc[i].color + "," + pn.dc[i].font + "," + pn.dc[i].text + "," + pn.dc[i].isString + "," + pn.dc[i].xmin + "," + pn.dc[i].ymin + "," + pn.dc[i].xmax + "," + pn.dc[i].ymax + "," + pn.dc[i].size);
+									output.newLine();
+								}
+								output.close();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	                    }
+                    }
+                });
+                    
+                
                 //create the status bar panel and shove it down the bottom of the frame
                 StatusBar sb = new StatusBar();
                 vb.addListener(sb);
@@ -113,14 +176,15 @@ public class MainFrame extends JFrame{
                 sp.getVerticalScrollBar().setUnitIncrement(1000);
                 sp.getHorizontalScrollBar().setUnitIncrement(1000);
                 frame.add(sp);
-                
-        		
+                       		
                 //add draw tools
                 DrawTools drTool = new DrawTools();
                 drTool.addToMenu(menuBar);
                 drTool.createOptions();
                 pn.dt = drTool;
                 
+                menuBar.add(sab);  
+                menuBar.add(sap);
                 frame.setJMenuBar(menuBar);
                 frame.setVisible(true);
                 frame.addComponentListener(new ComponentAdapter() 
